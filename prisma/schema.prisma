@@ -1,0 +1,73 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id            String       @id @default(cuid())
+    name          String
+    email         String       @unique
+    image         String?
+    emailVerified String?      @map("email_verified")
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    accounts      Account[]
+    Collection    Collection[]
+    Comment       Comment[]
+
+    @@map("users")
+}
+
+model Account {
+    id                String  @id @default(cuid())
+    userId            String  @map("user_id")
+    type              String
+    provider          String
+    providerAccountId String  @map("provider_account_id")
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+    @@map("accounts")
+}
+
+model Collection {
+    id         String   @id @default(cuid())
+    animeId    String   @map("anime_id")
+    animeImage String   @map("anime_image")
+    animeTitle String   @map("anime_title")
+    userId     String   @map("user_id")
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([animeId, userId])
+    @@map("collections")
+}
+
+model Comment {
+    id         String   @id @default(cuid())
+    animeId    String   @map("anime_id")
+    animeImage String   @map("anime_image")
+    animeTitle String   @map("anime_title")
+    userId     String   @map("user_id")
+    text       String   @db.Text
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("comments")
+}
