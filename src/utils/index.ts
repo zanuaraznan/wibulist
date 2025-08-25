@@ -1,5 +1,10 @@
 import clsx from 'clsx';
 import { ClassNameValue, twMerge } from 'tailwind-merge';
+import { NextResponse } from 'next/server';
+
+function apiResponse(body: object, status: number) {
+    return NextResponse.json(body, { status });
+}
 
 function randomizer<T>(data: T[]): T[] {
     return data.sort(() => Math.random() - 0.5);
@@ -42,6 +47,6 @@ function getTimeAgo(date: Date) {
     return text;
 }
 
-export { randomizer, debounce, cn, getTimeAgo };
+export { randomizer, debounce, cn, getTimeAgo, apiResponse };
 export { getMergedGenres } from './anime';
 export { getAnime, getAnimes, queuedFetch } from './fetcher';

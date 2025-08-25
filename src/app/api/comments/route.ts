@@ -1,10 +1,6 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { NextResponse } from 'next/server';
-
-function apiResponse(body: object, status: number) {
-    return NextResponse.json(body, { status });
-}
+import { apiResponse } from '@/utils';
 
 async function POST(req: Request) {
     const session = await auth();
@@ -33,4 +29,4 @@ async function DELETE(req: Request) {
     return apiResponse({ message: 'Comment was deleted' }, 200);
 }
 
-export { apiResponse, POST, DELETE };
+export { POST, DELETE };

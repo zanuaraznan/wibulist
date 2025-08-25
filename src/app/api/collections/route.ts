@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth';
-import { apiResponse } from '../comments/route';
 import { prisma } from '@/lib/prisma';
+import { apiResponse } from '@/utils';
 
 async function POST(req: Request) {
     const session = await auth();
