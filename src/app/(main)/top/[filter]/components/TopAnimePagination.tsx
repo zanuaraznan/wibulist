@@ -1,6 +1,7 @@
 'use client';
 import { useAnimeWithPagination } from '@/hooks';
 import { AnimeList, AnimePagination } from '@/components/anime';
+import { Suspense } from 'react';
 
 export const defaultAnimeParams = new URLSearchParams({
     limit: '25',
@@ -12,10 +13,7 @@ type TopAnimePaginationProps = {
     headerCustom: React.ReactNode;
 };
 
-export default function TopAnimePagination({
-    filter,
-    headerCustom,
-}: TopAnimePaginationProps) {
+function TopAnimePaginationSection({ filter, headerCustom }: TopAnimePaginationProps) {
     const topAnimeParams = new URLSearchParams(defaultAnimeParams.toString());
 
     if (filter !== 'all') {
@@ -25,7 +23,6 @@ export default function TopAnimePagination({
     }
 
     const topAnime = useAnimeWithPagination('top/anime', topAnimeParams);
-
     return (
         <>
             <AnimeList
@@ -40,5 +37,13 @@ export default function TopAnimePagination({
             />
             <AnimePagination {...topAnime} />
         </>
+    );
+}
+
+export default function TopAnimePagination({ ...props }: TopAnimePaginationProps) {
+    return (
+        <Suspense>
+            <TopAnimePaginationSection {...props} />
+        </Suspense>
     );
 }

@@ -1,9 +1,11 @@
 'use client';
+
+import { Suspense } from 'react';
 import { useAnimeWithPagination } from '@/hooks';
 import { AnimeList, AnimePagination } from '@/components/anime';
 import { defaultAnimeParams } from '../top/[filter]/components/TopAnimePagination';
 
-export default function Page() {
+function AnimeMoviesSection() {
     const animeMoviesParams = new URLSearchParams({
         ...Object.fromEntries(defaultAnimeParams),
         type: 'movie',
@@ -12,7 +14,7 @@ export default function Page() {
     const animeMovies = useAnimeWithPagination('anime', animeMoviesParams);
 
     return (
-        <main className='container'>
+        <>
             <AnimeList
                 animes={animeMovies.animes?.data}
                 loading={animeMovies.loading}
@@ -20,6 +22,16 @@ export default function Page() {
                 label='score'
             />
             <AnimePagination {...animeMovies} />
+        </>
+    );
+}
+
+export default function Page() {
+    return (
+        <main className='container'>
+            <Suspense>
+                <AnimeMoviesSection />
+            </Suspense>
         </main>
     );
 }

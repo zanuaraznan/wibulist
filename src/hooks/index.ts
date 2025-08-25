@@ -79,8 +79,6 @@ function useAnimeWithPagination(
         startTransition(() => {
             fetchAnime();
         });
-
-        // updateQuery();
     }, [page, isMobile, baseSearchString, baseSearchParams, basePath]);
 
     const pagination = {

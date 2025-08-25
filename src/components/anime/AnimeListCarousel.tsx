@@ -1,6 +1,6 @@
 'use client';
 import Button from '../button';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { SingleAnimeType } from '@/types/anime';
 import { AnimeWithLoading } from './AnimeWithLoading';
 import { HeaderLink, HeaderTitle } from './AnimeList';
@@ -19,7 +19,9 @@ type AnimeListCarouselType = {
 export function AnimeListCarousel({ ...props }: AnimeListCarouselType) {
     return (
         <AnimeLabelProvider>
-            <Main {...props} />
+            <Suspense>
+                <Main {...props} />
+            </Suspense>
         </AnimeLabelProvider>
     );
 }

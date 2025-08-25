@@ -1,14 +1,11 @@
 'use client';
-import { use } from 'react';
+import { Suspense, use } from 'react';
 import { useAnimeWithPagination } from '@/hooks';
 import { AnimeList, AnimePagination } from '@/components/anime';
 
 type Params = { params: Promise<{ keyword: string }> };
 
-export default function Page({ params }: Params) {
-    const { keyword } = use(params);
-    const decodedKeyword = decodeURIComponent(keyword);
-
+function AnimSearchSection({ keyword }: { keyword: string }) {
     const animeParams = new URLSearchParams({
         q: keyword,
         limit: '25',
@@ -18,14 +15,26 @@ export default function Page({ params }: Params) {
     const searchedAnime = useAnimeWithPagination('anime', animeParams);
 
     return (
-        <main className='container'>
+        <>
             <AnimeList
                 animes={searchedAnime.animes?.data}
                 loading={searchedAnime.loading}
-                title={`Search for ${decodedKeyword} ..`}
+                title={`Search for ${keyword} ..`}
                 label='score'
             />
             <AnimePagination {...searchedAnime} />
+        </>
+    );
+}
+
+export default function Page({ params }: Params) {
+    const { keyword } = use(params);
+    const decodedKeyword = decodeURIComponent(keyword);
+    return (
+        <main className='container'>
+            <Suspense>
+                <AnimSearchSection keyword={decodedKeyword} />
+            </Suspense>
         </main>
     );
 }
