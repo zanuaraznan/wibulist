@@ -5,7 +5,8 @@ export async function generateStaticParams() {
     return [{ slug: 'upcoming' }, { slug: 'now' }];
 }
 
-export default function Page({ params: { slug } }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
     const allowed = ['upcoming', 'now'];
 
     if (!allowed.includes(slug)) notFound();
