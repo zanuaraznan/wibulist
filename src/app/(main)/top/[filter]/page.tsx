@@ -1,6 +1,6 @@
 import notFound from '@/app/not-found';
 import TopAnimePagination from './components/TopAnimePagination';
-import SelectionFilter from '@/components/SelectionFilter';
+import SelectionFilter from '@/app/(main)/top/[filter]/components/SelectionFilter';
 
 const topAnimeFilter = ['all', 'airing', 'upcoming', 'bypopularity', 'favorite'];
 

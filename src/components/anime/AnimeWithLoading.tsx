@@ -1,3 +1,4 @@
+'use client';
 import { AnimatePresence, motion } from 'motion/react';
 import { AnimeDataType } from '@/types/anime';
 import { Anime } from './Anime';
