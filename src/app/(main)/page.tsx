@@ -1,4 +1,5 @@
 import { AnimeList, AnimeListCarousel, TopAnimeList } from '@/components/anime';
+import Footer from '@/components/Footer';
 import { getAnimes, randomizer } from '@/utils';
 
 export default async function Page() {
@@ -34,6 +35,7 @@ export default async function Page() {
                 limit={{ default: 2, onBreak: 4 }}
                 label='score'
             />
+            <Footer />
         </main>
     );
 }
