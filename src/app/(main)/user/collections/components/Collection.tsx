@@ -26,7 +26,7 @@ export default function Collection({ collection }: { collection: CollectionType 
             onClick={handleClick}
             variants={{ variant: 'none', withBase: false, size: 'none' }}
             className={cn(
-                'relative rounded-xl flex flex-col gap-2 text-left w-full transition-all ease-elastic',
+                'relative rounded-xl flex flex-col gap-2 text-left w-full transition-all',
                 isEditMode &&
                     !isSelected &&
                     'opacity-50 scale-90 wiggle select-icon selected-icon'

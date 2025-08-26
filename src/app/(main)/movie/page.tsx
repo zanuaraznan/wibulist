@@ -1,15 +1,19 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useAnimeWithPagination } from '@/hooks';
 import { AnimeList, AnimePagination } from '@/components/anime';
 import { defaultAnimeParams } from '../top/[filter]/components/TopAnimePagination';
 
 function AnimeMoviesSection() {
-    const animeMoviesParams = new URLSearchParams({
-        ...Object.fromEntries(defaultAnimeParams),
-        type: 'movie',
-    });
+    const animeMoviesParams = useMemo(
+        () =>
+            new URLSearchParams({
+                ...Object.fromEntries(defaultAnimeParams),
+                type: 'movie',
+            }),
+        []
+    );
 
     const animeMovies = useAnimeWithPagination('anime', animeMoviesParams);
 

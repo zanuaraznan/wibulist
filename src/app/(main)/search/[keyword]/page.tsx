@@ -1,17 +1,15 @@
 'use client';
-import { Suspense, use } from 'react';
+import { Suspense, use, useMemo } from 'react';
 import { useAnimeWithPagination } from '@/hooks';
 import { AnimeList, AnimePagination } from '@/components/anime';
 
 type Params = { params: Promise<{ keyword: string }> };
 
 function AnimSearchSection({ keyword }: { keyword: string }) {
-    const animeParams = new URLSearchParams({
-        q: keyword,
-        limit: '25',
-        sfw: 'true',
-    });
-
+    const animeParams = useMemo(
+        () => new URLSearchParams({ q: keyword, limit: '25', sfw: 'true' }),
+        [keyword]
+    );
     const searchedAnime = useAnimeWithPagination('anime', animeParams);
 
     return (

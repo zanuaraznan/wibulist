@@ -40,6 +40,7 @@ function useAnimeWithPagination(
     const [loading, setLoading] = useState(false);
     const [animes, setAnimes] = useState<AnimeType | null>(null);
     const [pending, startTransition] = useTransition();
+    const currentPage = searchParams.get('page');
 
     function increasePage(count = 1) {
         setPage((prev) => prev + count);
@@ -50,11 +51,9 @@ function useAnimeWithPagination(
     }
 
     useEffect(() => {
-        const pageFromUrl = Number(searchParams.get('page')) || 1;
-        if (pageFromUrl !== page) {
-            setPage(pageFromUrl);
-        }
-    }, [searchParams, page]);
+        const pageFromUrl = Number(currentPage) || 1;
+        if (pageFromUrl !== page) setPage(pageFromUrl);
+    }, [currentPage, page]); // ✅ stabil
 
     useEffect(() => {
         const urlFetcherParams = new URLSearchParams({
@@ -79,7 +78,9 @@ function useAnimeWithPagination(
         startTransition(() => {
             fetchAnime();
         });
-    }, [page, isMobile, baseSearchString, baseSearchParams, basePath]);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, isMobile, baseSearchString, basePath]);
 
     const pagination = {
         increasePage,
